@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_menu_schedule"
+            android:title="Schedule" />
+        <item
+            android:id="@+id/nav_calender"
+            android:icon="@drawable/ic_menu_calender"
+            android:title="Calender" />
+        <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/ic_menu_attendance"
+            android:title="Attendance" />
+
+    </group>
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_sign_out"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Sign out" />
+
+        </menu>
+    </item>
+
+</menu>
