@@ -8,5 +8,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
-
+    <string name="email_txt_box">Email</string>
+    <string name ="password_txt_box">password</string>
+    <string name ="login_button">Sign in</string>
 </resources>

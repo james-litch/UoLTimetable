@@ -9,9 +9,9 @@
             android:icon="@drawable/ic_menu_schedule"
             android:title="Schedule" />
         <item
-            android:id="@+id/nav_calender"
-            android:icon="@drawable/ic_menu_calender"
-            android:title="Calender" />
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_menu_calendar"
+            android:title="Calendar" />
         <item
             android:id="@+id/nav_attendance"
             android:icon="@drawable/ic_menu_attendance"

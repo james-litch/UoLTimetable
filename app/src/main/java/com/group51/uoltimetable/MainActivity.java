@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_schedule) {
             // Handle the camera action
-        } else if (id == R.id.nav_calender) {
+        } else if (id == R.id.nav_calendar) {
 
         } else if (id == R.id.nav_attendance) {
 
