@@ -6,44 +6,49 @@ import android.content.SharedPreferences;
 
 public class SessionManager {
     private SharedPreferences pref;
-    private Context  context;
+    private Context context;
     private SharedPreferences.Editor editor;
     private static final String PREF_NAME = "UserPref";
 
-    public SessionManager (Context context){
+    public SessionManager(Context context) {
         this.context = context;
-        pref = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
+        pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
 
-    public void createLoginSession(){
-        editor.putBoolean("isLoggedIn",true);
+    public void createLoginSession() {
+        editor.putBoolean("isLoggedIn", true);
         editor.commit();
     }
 
-    public boolean isLoggedIn(){
-        return pref.getBoolean("isLoggedIn",false);
+    public boolean isLoggedIn() {
+        return pref.getBoolean("isLoggedIn", false);
     }
 
 
-    public void checkLogin(){
+    public void checkLogin() {
         // Check login status
-        if(!this.isLoggedIn()){
+        Intent i;
+        if (!this.isLoggedIn()) {
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(context, LoginActivity.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            // Staring Login Activity
-            context.startActivity(i);
+            i = new Intent(context, LoginActivity.class);
+        } else {
+            i = new Intent(context, MainActivity.class);
         }
 
+
+        // Closing all the Activities
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        // Add new Flag to start new Activity
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        // Staring  Activity
+        context.startActivity(i);
     }
 
-    public void logoutUser(){
+
+    public void logoutUser() {
         //clear and save preferences.
         editor.clear();
         editor.commit();
