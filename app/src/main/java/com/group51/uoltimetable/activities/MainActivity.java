@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_sign_out:
                 session.logoutUser();
+                finishAffinity();
         }
         return fragment;
     }
