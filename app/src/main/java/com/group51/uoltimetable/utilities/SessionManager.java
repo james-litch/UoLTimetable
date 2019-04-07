@@ -1,8 +1,11 @@
-package com.group51.uoltimetable;
+package com.group51.uoltimetable.utilities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.group51.uoltimetable.activities.LoginActivity;
+import com.group51.uoltimetable.activities.MainActivity;
 
 public class SessionManager {
     private SharedPreferences pref;
