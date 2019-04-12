@@ -24,10 +24,19 @@ public class DBConnect{
     // to use result set, use a while loop while(resultSet.next())
     // reference colum from from current row in result set by using
     // resultSet.getString("columnn name") if type is string, getInt if type is int etc.
-    public getData(String SQLQuery){
+    public ResultSet getData(String SQLQuery){
         try{
             resultSet = statement.executeQuery(SQLQuery);
             return resultSet;
+        } catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public void setData(String SQLQuery){
+        try{
+            statement.executeUpdate(SQLQuery);
         } catch (Exception e){
             System.out.println(e);
         }
