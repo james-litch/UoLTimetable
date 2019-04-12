@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.group51.uoltimetable.R;
+import com.group51.uoltimetable.fragments.CalendarFragment;
 import com.group51.uoltimetable.fragments.TabFragment;
 import com.group51.uoltimetable.utilities.SessionManager;
 
@@ -30,19 +31,18 @@ public class MainActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
         setContentView(R.layout.activity_main);
-        initializeStuff();
+        setup();
 
-        // since, NoActionBar was defined in theme, we set toolbar as our action bar.
         setSupportActionBar(toolbar);
 
-        //this basically defines on click on each menu item.
+        //responsible for menu clicks.
         setUpNavigationView(navigationView);
 
-        //This is for the Hamburger icon.
+        //set up menu drawer icon.
         drawerToggle = setupDrawerToggle();
         drawerLayout.addDrawerListener(drawerToggle);
 
-        //Inflate the first fragment,this is like home fragment before user selects anything.
+        // sets up the initial fragment.
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frameContent, new TabFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_schedule);
@@ -50,30 +50,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void initializeStuff() {
+    void setup() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.navigationDrawer);
     }
 
-    /**
-     * Inflate the fragment according to item clicked in navigation drawer.
-     */
+    //launch fragment based on item clicked in nav drawer.
     private void setUpNavigationView(final NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                //replace the current fragment with the new fragment.
+                //replace current fragment with new fragment.
                 Fragment selectedFragment = selectDrawerItem(menuItem);
                 if (selectedFragment != null) {
 
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.frameContent, selectedFragment).commit();
-                    // the current menu item is highlighted in navigation tray.
+                    // current menu item is highlighted in nav tray.
                     navigationView.setCheckedItem(menuItem.getItemId());
                     setTitle(menuItem.getTitle());
                 }
-                //close the drawer when user selects a nav item.
+                //close drawer when user selects a nav item.
 
                 drawerLayout.closeDrawers();
                 return true;
@@ -81,9 +79,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * This method returns the fragment according to navigation item selected.
-     */
+    // returns fragment based on nav item selected.
     public Fragment selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
@@ -91,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new TabFragment();
                 break;
             case R.id.nav_calendar:
-                fragment = new TabFragment();
+                fragment = new CalendarFragment();
 
                 break;
             case R.id.nav_attendance:
@@ -105,17 +101,12 @@ public class MainActivity extends AppCompatActivity {
         return fragment;
     }
 
-    /**
-     * This is to setup our Toggle icon. The strings R.string.drawer_open and R.string.drawer close, are for accessibility (generally audio for visually impaired)
-     * use only. It is now showed on the screen. While the remaining parameters are required initialize the toggle.
-     */
+    // for accessibility.
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
 
-    /**
-     * This makes sure that the action bar home button that is the toggle button, opens or closes the drawer when tapped.
-     */
+    // nav drawer button opens and closes nav drawer when pressed.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -126,20 +117,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * This synchronizes the drawer icon that rotates when the drawer is swiped left or right.
-     * Called inside onPostCreate so that it can synchronize the animation again when the Activity is restored.
-     */
+    // responsible for the smooth animation of the menu icon.
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
 
-    /**
-     * This is to handle generally orientation changes of your device. It is mandatory to include
-     * android:configChanges="keyboardHidden|orientation|screenSize" in your activity tag of the manifest for this to work.
-     */
+    //handles orientation changes of device.
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

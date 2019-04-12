@@ -25,7 +25,7 @@ public class TabFragment extends Fragment {
 
         //this inflates out tab layout file.
         View view = inflater.inflate(R.layout.tab_fragment_layout, null);
-        // set up stuff.
+        // set up.
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
 
@@ -48,8 +48,8 @@ public class TabFragment extends Fragment {
 
     class MyAdapter extends FragmentPagerAdapter {
 
-        public MyAdapter(FragmentManager fm) {
-            super(fm);
+        public MyAdapter(FragmentManager fragManager) {
+            super(fragManager);
         }
 
         //return the fragment with respect to page position.
