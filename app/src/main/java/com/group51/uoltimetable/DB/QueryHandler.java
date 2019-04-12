@@ -87,4 +87,10 @@ public class QueryHandler {
 	   
 	   return false;
 	}
+	
+	public ResultSet getLecturesForDate (Date date) { //use Date.valueof to parse date when using this eg getLecturesForDate(Date.valueOf("2019-01-29"))
+		DBConnect query = new DBConnect();
+		ResultSet lecturesForDate = query.getData("select * from Lecture where dayAndTime LIKE '" + date + "%' order by dayAndTime");
+		return lecturesForDate;
+	}
 }
