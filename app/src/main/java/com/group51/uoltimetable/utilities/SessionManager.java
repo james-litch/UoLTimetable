@@ -50,7 +50,6 @@ public class SessionManager {
         context.startActivity(i);
     }
 
-
     public void logoutUser() {
         //clear and save preferences.
         editor.clear();
@@ -67,5 +66,15 @@ public class SessionManager {
 
         // Staring Login Activity
         context.startActivity(i);
+    }
+
+    public void isLecturer() {
+        editor.putBoolean("isLecturer", true);
+        editor.commit();
+    }
+
+    public void isStudent() {
+        editor.putBoolean("isLecturer", false);
+        editor.commit();
     }
 }

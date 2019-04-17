@@ -13,11 +13,14 @@ import android.view.ViewGroup;
 
 import com.group51.uoltimetable.R;
 
+import java.util.Calendar;
+
 public class TabFragment extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
     public static int num_frags = 5;
+
 
     @Nullable
     @Override
@@ -26,8 +29,8 @@ public class TabFragment extends Fragment {
         //this inflates out tab layout file.
         View view = inflater.inflate(R.layout.tab_fragment_layout, null);
         // set up.
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        tabLayout = view.findViewById(R.id.tabs);
+        viewPager = view.findViewById(R.id.viewpager);
 
         // create a new adapter for our pageViewer. This adapters returns child fragments as per the position of the page Viewer.
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
@@ -40,8 +43,19 @@ public class TabFragment extends Fragment {
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
-        //to preload the adjacent tabs. This makes transition smooth.
+        //preload adjacent tabs, helps reduce lag.
         viewPager.setOffscreenPageLimit(2);
+
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        //sets the opening day of the schedule to the current day, if its the weekend set to monday.
+        if (dayOfWeek >= Calendar.MONDAY && dayOfWeek <= Calendar.FRIDAY) {
+            viewPager.setCurrentItem(dayOfWeek - 1, true);
+        } else {
+
+            viewPager.setCurrentItem(0);
+        }
 
         return view;
     }
@@ -57,15 +71,15 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new MondayFragment();
+                    return new DayFragment();
                 case 1:
-                    return new TuesdayFragment();
+                    return new DayFragment();
                 case 2:
-                    return new WednesdayFragment();
+                    return new DayFragment();
                 case 3:
-                    return new ThursdayFragment();
+                    return new DayFragment();
                 case 4:
-                    return new FridayFragment();
+                    return new DayFragment();
             }
             return null;
         }
@@ -96,4 +110,6 @@ public class TabFragment extends Fragment {
             return null;
         }
     }
+
+
 }

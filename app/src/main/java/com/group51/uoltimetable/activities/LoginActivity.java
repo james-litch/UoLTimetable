@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
 
 
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO change this to make it secure and login shit here.

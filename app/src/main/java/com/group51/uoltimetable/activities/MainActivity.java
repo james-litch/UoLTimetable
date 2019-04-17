@@ -17,6 +17,8 @@ import com.group51.uoltimetable.fragments.CalendarFragment;
 import com.group51.uoltimetable.fragments.TabFragment;
 import com.group51.uoltimetable.utilities.SessionManager;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     private SessionManager session;
@@ -48,12 +50,13 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setCheckedItem(R.id.nav_schedule);
         setTitle("Schedule");
 
+
     }
 
     void setup() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        navigationView = (NavigationView) findViewById(R.id.navigationDrawer);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.navigationDrawer);
     }
 
     //launch fragment based on item clicked in nav drawer.
