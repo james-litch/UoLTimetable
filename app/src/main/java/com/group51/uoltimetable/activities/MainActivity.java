@@ -1,5 +1,6 @@
 package com.group51.uoltimetable.activities;
 
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 
 import com.group51.uoltimetable.R;
 import com.group51.uoltimetable.fragments.CalendarFragment;
+import com.group51.uoltimetable.fragments.LectureInfoFragment;
 import com.group51.uoltimetable.fragments.TabFragment;
 import com.group51.uoltimetable.utilities.SessionManager;
 
@@ -57,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.navigationDrawer);
+    }
+
+    public void replaceFragment() {
+        Fragment lectureInfoFragment = new LectureInfoFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.frameContent, lectureInfoFragment).addToBackStack(null).commit();
+
     }
 
     //launch fragment based on item clicked in nav drawer.

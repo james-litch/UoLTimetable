@@ -12,6 +12,17 @@ import com.group51.uoltimetable.R;
 import java.util.List;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.LectureViewHolder> {
+    private List<Lecture> lectures;
+    private OnItemClickListener clickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        clickListener = listener;
+    }
+
 
     public static class LectureViewHolder extends RecyclerView.ViewHolder {
 
@@ -22,7 +33,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         TextView startTime;
         TextView endTime;
 
-        LectureViewHolder(View itemView) {
+        LectureViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             linearLayout = itemView.findViewById(R.id.linear_layout);
             lectureName = itemView.findViewById(R.id.lecture_name);
@@ -30,10 +41,20 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             location = itemView.findViewById(R.id.location);
             startTime = itemView.findViewById(R.id.start_time);
             endTime = itemView.findViewById(R.id.end_time);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
-    List<Lecture> lectures;
 
     public RecycleViewAdapter(List<Lecture> lectures) {
         this.lectures = lectures;
@@ -47,8 +68,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @Override
     public LectureViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.lecture_card, viewGroup, false);
-        LectureViewHolder lvh = new LectureViewHolder(v);
-        return lvh;
+        return new LectureViewHolder(v, clickListener);
+
     }
 
     @Override
