@@ -28,7 +28,7 @@ public class QueryHandler {
 	   return availablerooms;
 	}
    
-	public void findAttendance(String studentID, String moduleCode) { //maybe change this delete
+	public double findAttendance(String studentID, String moduleCode) { //returns attendance as a decimal between 0 and 1
 	   
 	   DBConnect findattendance = new DBConnect();
 	   ResultSet attendance = findattendance.getData("select * from Attendance where studentID = '" + studentID + "' and moduleCode = '" + moduleCode + "'");
@@ -37,12 +37,17 @@ public class QueryHandler {
 	   ResultSet numLectures = countlectures.getData("select count(*) as NumLectures from Lecture where ModuleCode = '" + moduleCode + "' AND dayAndTime < NOW()");
 		
 	   try {
-		   while (attendance.next() && numLectures.next()) {
-			   System.out.println(attendance.getString("studentID") + ", " + attendance.getString("moduleCode") + ", "  + (double) attendance.getInt("Attendance")/numLectures.getInt("NumLectures") * 100 + "%");
+		   if (attendance.next() && numLectures.next())  {
+			   attendance.beforeFirst();
+			   numLectures.beforeFirst();
+			   while (attendance.next() && numLectures.next()) {
+				   return (double) attendance.getInt("Attendance")/numLectures.getInt("NumLectures");
+			   }
 		   }
+		   return 0;
 	   } 
 	   catch (SQLException e) {
-		   e.printStackTrace();
+		   return 0;
 	   }
 
 	}
@@ -59,12 +64,13 @@ public class QueryHandler {
 		  if (actualPassword.equals(ciphertext)) {
 			  return true;
 		  }
+		  else {
+			  return false;
+		  }
 	   }
 	   catch (SQLException e) {
-		 e.printStackTrace();
+		   return false;
 	   }
-	   
-	   return false;
 	   
 	}
    
@@ -80,15 +86,17 @@ public class QueryHandler {
 		  if (actualPassword.equals(ciphertext)) {
 			  return true;
 		  }
+		  else {
+			  return false;
+		  }
 	   }
 	   catch (SQLException e) {
-		 e.printStackTrace();
+		   return false;
 	   }
 	   
-	   return false;
 	}
 	
-	public ResultSet getLecturesForDate (Date date) { //use Date.valueof to parse date when using this eg getLecturesForDate(Date.valueOf("2019-01-29"))
+	public ResultSet getLecturesForDate (Date date) { //use Date.valueof to parse date eg getLecturesForDate(Date.valueOf("2019-01-29"))
 		DBConnect query = new DBConnect();
 		ResultSet lecturesForDate = query.getData("select * from Lecture where dayAndTime LIKE '" + date + "%' order by dayAndTime");
 		return lecturesForDate;
