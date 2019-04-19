@@ -19,8 +19,9 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession() {
+    public void createLoginSession(String username) {
         editor.putBoolean("isLoggedIn", true);
+        editor.putString("username", username);
         editor.commit();
     }
 

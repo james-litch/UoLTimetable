@@ -69,7 +69,7 @@ public class TabFragment extends Fragment {
         //return the fragment with respect to page position.
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
+            switch (position) { //TODO maybe pass in date on X day
                 case 0:
                     return new DayFragment();
                 case 1:

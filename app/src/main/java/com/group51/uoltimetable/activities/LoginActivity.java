@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         lecturerSwitch = findViewById(R.id.lecturer_switch);
 
         session = new SessionManager(getApplicationContext());
-        //queryHandler = new QueryHandler();
+        queryHandler = new QueryHandler();
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -43,17 +43,19 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO change this to make it secure and login shit here.
                 String username = usernameTxtBox.getText().toString();
                 String password = passwordTxtBox.getText().toString();
-                session.createLoginSession();
+                session.createLoginSession(username);
                 session.isStudent();
                 goToMainActivity();
 
- /*               if (lecturerSwitch.isChecked() && queryHandler.checkLecturerPassword(username, password)) {
-                    session.createLoginSession();
+
+
+/*                if (lecturerSwitch.isChecked() && queryHandler.checkLecturerPassword(username, password)) {
+                    session.createLoginSession(username);
                     session.isLecturer();
                     goToMainActivity();
                     //TODO change this for a lecturer view.
                 } else if (!lecturerSwitch.isChecked() && queryHandler.checkStudentPassword(username, password)) {
-                    session.createLoginSession();
+                    session.createLoginSession(username);
                     session.isStudent();
                     goToMainActivity();
 
