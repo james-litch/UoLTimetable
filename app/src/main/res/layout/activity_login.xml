@@ -23,46 +23,46 @@
     </ImageView>
 
     <EditText
-        android:id="@+id/email_txt_box"
+        android:id="@+id/username_txt_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="108dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:padding="15dp"
         android:background="@drawable/edit_text_box"
-        android:drawableStart="@drawable/ic_email_white"
+        android:drawableStart="@drawable/ic_person_white"
         android:drawablePadding="10dp"
-        android:hint="@string/email_txt_box"
-        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:hint="@string/username_txt_box"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textColorHighlight="@color/white" />
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <EditText
         android:id="@+id/password_txt_box"
-        android:hint="@string/password_txt_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:padding="15dp"
         android:background="@drawable/edit_text_box"
         android:drawableStart="@drawable/ic_lock_white"
         android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="@string/password_txt_box"
         android:inputType="textPassword"
+        android:padding="15dp"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_txt_box"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textColorHighlight="@color/white" />
+        app:layout_constraintTop_toBottomOf="@+id/username_txt_box" />
 
     <Button
         android:id="@+id/login_button"
@@ -72,13 +72,31 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/login_button"
-        android:shadowColor="@android:color/transparent"
+        android:background="@drawable/login_button"
         android:padding="15dp"
+        android:shadowColor="@android:color/transparent"
+        android:text="@string/login_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_txt_box" />
+
+
+    <Switch
+        android:id="@+id/lecturer_switch"
+        android:layout_width="176dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/login_as_lecturer"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_txt_box"
-        android:background="@drawable/login_button" />
+        app:layout_constraintVertical_bias="0.109" />
 
 </android.support.constraint.ConstraintLayout>
