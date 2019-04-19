@@ -59,12 +59,13 @@ public class QueryHandler {
 		  if (actualPassword.equals(ciphertext)) {
 			  return true;
 		  }
+		  else {
+			  return false;
+		  }
 	   }
 	   catch (SQLException e) {
-		 e.printStackTrace();
+		   return false;
 	   }
-	   
-	   return false;
 	   
 	}
    
@@ -80,15 +81,17 @@ public class QueryHandler {
 		  if (actualPassword.equals(ciphertext)) {
 			  return true;
 		  }
+		  else {
+			  return false;
+		  }
 	   }
 	   catch (SQLException e) {
-		 e.printStackTrace();
+		   return false;
 	   }
 	   
-	   return false;
 	}
 	
-	public ResultSet getLecturesForDate (Date date) { //use Date.valueof to parse date when using this eg getLecturesForDate(Date.valueOf("2019-01-29"))
+	public ResultSet getLecturesForDate (Date date) { //use Date.valueof to parse date eg getLecturesForDate(Date.valueOf("2019-01-29"))
 		DBConnect query = new DBConnect();
 		ResultSet lecturesForDate = query.getData("select * from Lecture where dayAndTime LIKE '" + date + "%' order by dayAndTime");
 		return lecturesForDate;
