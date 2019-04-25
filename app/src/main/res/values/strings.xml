@@ -16,6 +16,9 @@
     <string name="nav_sign_out">Sign Out</string>
     <string name="nav_group_account">Account</string>
     <string name="login_as_lecturer">Login as Lecturer</string>
+    <string name="info_register_attendance">register attendance</string>
+    <string name="lecturer_card_title">Lecturer</string>
+    <string name="location_card_title">Location</string>
 
 
 </resources>

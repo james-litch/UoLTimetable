@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import com.group51.uoltimetable.R;
 
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.LectureViewHolder> {
-    private List<Lecture> lectures;
+
+public class LectureRecyclerAdapter extends RecyclerView.Adapter<LectureRecyclerAdapter.LectureViewHolder> {
     private OnItemClickListener clickListener;
+    private JSONArray lectures;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -56,7 +58,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
 
-    public RecycleViewAdapter(List<Lecture> lectures) {
+    public LectureRecyclerAdapter(JSONArray lectures) {
         this.lectures = lectures;
     }
 
@@ -74,16 +76,21 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     @Override
     public void onBindViewHolder(LectureViewHolder lectureViewHolder, int i) {
-        lectureViewHolder.lectureName.setText(lectures.get(i).lectureName);
-        lectureViewHolder.lecturerName.setText(lectures.get(i).lecturerName);
-        lectureViewHolder.location.setText(lectures.get(i).location);
-        lectureViewHolder.startTime.setText(lectures.get(i).startTime);
-        lectureViewHolder.endTime.setText(lectures.get(i).endTime);
+        try {
+            lectureViewHolder.lectureName.setText(lectures.getJSONObject(i).getString("lectureName"));
+            lectureViewHolder.lecturerName.setText(lectures.getJSONObject(i).getString("lecturerName"));
+            lectureViewHolder.location.setText(lectures.getJSONObject(i).getString("location"));
+            lectureViewHolder.startTime.setText(lectures.getJSONObject(i).getString("startTime"));
+            lectureViewHolder.endTime.setText(lectures.getJSONObject(i).getString("endTime"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return lectures.size();
+        return lectures.length();
     }
 }

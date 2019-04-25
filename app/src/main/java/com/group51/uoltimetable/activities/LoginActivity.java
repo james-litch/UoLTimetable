@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.group51.uoltimetable.R;
 import com.group51.uoltimetable.utilities.SessionManager;
-import com.group51.uoltimetable.DB.QueryHandler;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordTxtBox;
     Switch lecturerSwitch;
     SessionManager session;
-    QueryHandler queryHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         lecturerSwitch = findViewById(R.id.lecturer_switch);
 
         session = new SessionManager(getApplicationContext());
-        queryHandler = new QueryHandler();
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -47,22 +43,6 @@ public class LoginActivity extends AppCompatActivity {
                 session.isStudent();
                 goToMainActivity();
 
-
-
-/*                if (lecturerSwitch.isChecked() && queryHandler.checkLecturerPassword(username, password)) {
-                    session.createLoginSession(username);
-                    session.isLecturer();
-                    goToMainActivity();
-                    //TODO change this for a lecturer view.
-                } else if (!lecturerSwitch.isChecked() && queryHandler.checkStudentPassword(username, password)) {
-                    session.createLoginSession(username);
-                    session.isStudent();
-                    goToMainActivity();
-
-                } else {
-                    Toast.makeText(LoginActivity.this,
-                            "Incorrect credentials", Toast.LENGTH_LONG).show();
-                }*/
 
             }
         });

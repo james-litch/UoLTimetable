@@ -1,6 +1,5 @@
 package com.group51.uoltimetable.activities;
 
-import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,12 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.group51.uoltimetable.R;
+import com.group51.uoltimetable.fragments.AttendanceFragment;
 import com.group51.uoltimetable.fragments.CalendarFragment;
 import com.group51.uoltimetable.fragments.LectureInfoFragment;
 import com.group51.uoltimetable.fragments.TabFragment;
 import com.group51.uoltimetable.utilities.SessionManager;
 
-import java.util.Calendar;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
+    JSONObject data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedFragment != null) {
 
                     FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.popBackStack();
                     fragmentManager.beginTransaction().replace(R.id.frameContent, selectedFragment).commit();
                     // current menu item is highlighted in nav tray.
                     navigationView.setCheckedItem(menuItem.getItemId());
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.nav_attendance:
-                fragment = new TabFragment();
+                fragment = new AttendanceFragment();
 
                 break;
             case R.id.nav_sign_out:
@@ -142,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
+
 }
 
 
