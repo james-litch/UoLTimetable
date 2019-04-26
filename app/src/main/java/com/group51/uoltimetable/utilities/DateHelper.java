@@ -1,6 +1,8 @@
 package com.group51.uoltimetable.utilities;
 
 
+import android.content.Intent;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,4 +51,17 @@ public class DateHelper {
     }
 
 
+    public String dateStringFromInts(int dayOfMonth, int month, int year) {
+        String dayString = Integer.toString(dayOfMonth);
+        String monthString = Integer.toString(month);
+        String yearString = Integer.toString(year);
+        if (dayOfMonth < 10) {
+            dayString = "0" + dayString;
+        }
+
+        if (month < 10) {
+            monthString = "0" + monthString;
+        }
+        return dayString + "-" + monthString + "-" + yearString;
+    }
 }

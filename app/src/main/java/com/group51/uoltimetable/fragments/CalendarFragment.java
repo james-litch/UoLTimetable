@@ -17,7 +17,6 @@ import com.group51.uoltimetable.Model.LectureInfoViewModel;
 import com.group51.uoltimetable.R;
 import com.group51.uoltimetable.utilities.DateHelper;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class CalendarFragment extends Fragment {
@@ -53,8 +52,9 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 month += 1;
-                addDayFragment(dayOfMonth + "-" + month + "-" + year);
-                Toast.makeText(getContext(), dayOfMonth + "-" + month + "-" + year, Toast.LENGTH_SHORT).show();
+                String date = dateHelper.dateStringFromInts(dayOfMonth, month, year);
+                addDayFragment(date);
+                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
             }
         });
     }

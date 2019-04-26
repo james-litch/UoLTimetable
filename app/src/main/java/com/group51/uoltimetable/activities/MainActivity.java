@@ -36,11 +36,20 @@ public class MainActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
 
-        setContentView(R.layout.activity_main);
+        if (session.isLecturer()) {
+            setContentView(R.layout.activity_main_lecturer);
+            navigationView = findViewById(R.id.navigation_drawer_lecturer);
+            drawerLayout = findViewById(R.id.drawer_layout_lecturer);
 
-        drawerLayout = findViewById(R.id.drawerLayout);
+
+        } else {
+            setContentView(R.layout.activity_main);
+            navigationView = findViewById(R.id.navigation_drawer);
+            drawerLayout = findViewById(R.id.drawer_layout);
+
+        }
         toolbar = findViewById(R.id.toolbar);
-        navigationView = findViewById(R.id.navigationDrawer);
+
 
         setSupportActionBar(toolbar);
 
@@ -106,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_attendance:
                 fragment = new AttendanceFragment();
 
+                break;
+            case R.id.nav_room_change:
+                fragment = new CalendarFragment();
                 break;
             case R.id.nav_sign_out:
                 session.logoutUser();
