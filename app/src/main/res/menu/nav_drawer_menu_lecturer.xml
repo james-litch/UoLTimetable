@@ -12,7 +12,7 @@
             android:title="@string/nav_calendar" />
         <item
             android:id="@+id/nav_room_change"
-            android:icon="@drawable/ic_menu_attendance"
+            android:icon="@drawable/ic_menu_building"
             android:title="Room Change" />
 
     </group>

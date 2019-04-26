@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordTxtBox.getText().toString();
 
                 session.createLoginSession(username);
-                session.setAsLecturer();
+                session.setAsStudent();
                 //TODO maybe access the name from the database
                 goToMainActivity();
 

@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.nav_room_change:
+                //TODO implement room change.
                 fragment = new CalendarFragment();
                 break;
             case R.id.nav_sign_out:
