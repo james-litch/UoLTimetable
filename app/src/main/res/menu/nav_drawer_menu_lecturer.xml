@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_menu_schedule"
+            android:title="@string/nav_schedule" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_menu_calendar"
+            android:title="@string/nav_calendar" />
+        <item
+            android:id="@+id/nav_room_change"
+            android:icon="@drawable/ic_menu_attendance"
+            android:title="Room Change" />
+
+    </group>
+
+    <item android:title="@string/nav_group_account">
+        <menu>
+            <item
+                android:id="@+id/nav_sign_out"
+                android:icon="@drawable/ic_person_black"
+                android:title="@string/nav_sign_out" />
+
+        </menu>
+    </item>
+
+</menu>

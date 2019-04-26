@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.group51.uoltimetable.R;
 import com.group51.uoltimetable.utilities.SessionManager;
@@ -39,8 +38,10 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO change this to make it secure and login shit here.
                 String username = usernameTxtBox.getText().toString();
                 String password = passwordTxtBox.getText().toString();
+
                 session.createLoginSession(username);
-                session.isStudent();
+                session.setAsStudent();
+                //TODO maybe access the name from the database
                 goToMainActivity();
 
 

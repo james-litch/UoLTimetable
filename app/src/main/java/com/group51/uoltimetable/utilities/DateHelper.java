@@ -8,8 +8,8 @@ import java.util.Locale;
 
 
 public class DateHelper {
-    Calendar calendar;
-    SimpleDateFormat dateFormat;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
     private String pattern = "dd-MM-yyyy";
 
     public DateHelper() {
@@ -31,13 +31,17 @@ public class DateHelper {
     }
 
     public String getDateOfDay(int numDays, Boolean nextWeek) {
+        //TODO clean this up
+        if (nextWeek) {
+            numDays = numDays + 7;
+        }
 
         dateFormat = new SimpleDateFormat(pattern, Locale.UK);
         calendar = Calendar.getInstance(Locale.UK);
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         Date firstDay = calendar.getTime();
         // adds number of days onto the start of monday
-        calendar.add(Calendar.DATE, numDays - 1);
+        calendar.add(Calendar.DATE, numDays);
         Date date = calendar.getTime();
         System.out.println("this is the first day of week  " + firstDay + "  this is the new date : " + date);
 

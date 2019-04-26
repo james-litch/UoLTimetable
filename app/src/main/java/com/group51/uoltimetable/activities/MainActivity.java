@@ -2,6 +2,7 @@ package com.group51.uoltimetable.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -19,8 +20,6 @@ import com.group51.uoltimetable.fragments.LectureInfoFragment;
 import com.group51.uoltimetable.fragments.TabFragment;
 import com.group51.uoltimetable.utilities.SessionManager;
 
-import org.json.JSONObject;
-
 public class MainActivity extends AppCompatActivity {
 
     private SessionManager session;
@@ -28,15 +27,20 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
-    JSONObject data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //checks to see if user has already logged in.
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
+
         setContentView(R.layout.activity_main);
-        setup();
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.navigationDrawer);
 
         setSupportActionBar(toolbar);
 
@@ -56,13 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void setup() {
-        drawerLayout = findViewById(R.id.drawerLayout);
-        toolbar = findViewById(R.id.toolbar);
-        navigationView = findViewById(R.id.navigationDrawer);
-    }
 
-    public void replaceFragment() {
+    public void replaceWithInfoFragment() {
         Fragment lectureInfoFragment = new LectureInfoFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frameContent, lectureInfoFragment).addToBackStack(null).commit();
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpNavigationView(final NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //replace current fragment with new fragment.
                 Fragment selectedFragment = selectDrawerItem(menuItem);
                 if (selectedFragment != null) {
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // returns fragment based on nav item selected.
+    // returns fragment based on nav_item selected.
     public Fragment selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         return fragment;
     }
 
-    // for accessibility.
+    // for accessibility purposes.
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // responsible for the smooth animation of the menu icon.
+    // responsible for the animation of the menu icon.
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

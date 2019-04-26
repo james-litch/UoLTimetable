@@ -3,7 +3,6 @@ package com.group51.uoltimetable.fragments;
 import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +18,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,7 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.group51.uoltimetable.Model.LectureViewModel;
+import com.group51.uoltimetable.Model.LectureInfoViewModel;
 import com.group51.uoltimetable.R;
 
 import org.json.JSONException;
@@ -46,7 +42,7 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
     TextView location;
     Button attendanceButton;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private LectureViewModel viewModel;
+    private LectureInfoViewModel viewModel;
 
 
     public LectureInfoFragment() {
@@ -55,14 +51,15 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.lecture_info_fragment, container, false);
-        viewModel = ViewModelProviders.of(Objects.requireNonNull(this.getActivity())).get(LectureViewModel.class);
         lectureName = view.findViewById(R.id.info_lecture_name);
         lecturerName = view.findViewById(R.id.info_lecturer_name);
         location = view.findViewById(R.id.info_location);
         attendanceButton = view.findViewById(R.id.register_attendance_button);
+        viewModel = ViewModelProviders.of(Objects.requireNonNull(this.getActivity())).get(LectureInfoViewModel.class);
+
 
         displayInfo(viewModel.getLectureInfo());
 
@@ -70,8 +67,8 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        initializeMap();
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        initialiseMap();
 
         attendanceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -94,7 +91,7 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
         }
     }
 
-    private void initializeMap() {
+    private void initialiseMap() {
         if (map == null) {
             mapFrag = new SupportMapFragment();
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -124,10 +121,10 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
     }
 
     private void enableMyLocationIfPermitted() {
-        if (ContextCompat.checkSelfPermission(getContext(),
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),
+            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
@@ -147,7 +144,6 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
                 } else {
                     showDefaultLocation();
                 }
-                return;
             }
 
         }
@@ -155,7 +151,7 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
 
     private void showDefaultLocation() {
         Toast.makeText(getContext(), "Location permission not granted, " +
-                        "showing default location",
+                        "showing default location for the Guild",
                 Toast.LENGTH_SHORT).show();
         LatLng liverpoolGuild = new LatLng(53.405389, -2.966077);
         map.moveCamera(CameraUpdateFactory.newLatLng(liverpoolGuild));

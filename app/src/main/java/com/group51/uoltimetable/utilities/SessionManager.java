@@ -69,13 +69,19 @@ public class SessionManager {
         context.startActivity(i);
     }
 
-    public void isLecturer() {
+    public void setAsLecturer() {
         editor.putBoolean("isLecturer", true);
         editor.commit();
     }
 
-    public void isStudent() {
+    public void setAsStudent() {
         editor.putBoolean("isLecturer", false);
         editor.commit();
     }
+
+    public boolean isLecturer() {
+        return pref.getBoolean("isLecturer", false);
+
+    }
+
 }
