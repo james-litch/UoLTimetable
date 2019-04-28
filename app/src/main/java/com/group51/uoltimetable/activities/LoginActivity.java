@@ -22,8 +22,6 @@ import com.group51.uoltimetable.utilities.SessionManager;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.security.AccessController.getContext;
-
 public class LoginActivity extends AppCompatActivity {
 
     Button loginBtn;
@@ -32,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     Switch lecturerSwitch;
     SessionManager session;
     RequestQueue queue;
-    String url = "https://student.csc.liv.ac.uk/~sgmbray/DBFetch.php";
+    String url = "https://student.csc.liv.ac.uk/~sgmbray/Login.php";
     private String username;
     private String password;
 
@@ -52,16 +50,19 @@ public class LoginActivity extends AppCompatActivity {
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO change this to make it secure and login shit here.
                 username = usernameTxtBox.getText().toString();
                 password = passwordTxtBox.getText().toString();
 
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response == "success") {
+                        if (response.equals("success")) {
                             session.createLoginSession(username);
-                            session.setAsStudent();
+                            if (lecturerSwitch.isChecked()) {
+                                session.setAsLecturer();
+                            } else {
+                                session.setAsStudent();
+                            }
                             goToMainActivity();
                         } else {
                             Toast.makeText(getApplicationContext(), "Incorrect Details", Toast.LENGTH_LONG).show();
@@ -72,18 +73,18 @@ public class LoginActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
                     }
-                }){
+                }) {
                     @Override
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String>  params = new HashMap<String, String>();
-                        params.put("lecturer", Boolean.toString(!lecturerSwitch.isChecked()));
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("lecturer", Boolean.toString(lecturerSwitch.isChecked()));
                         params.put("id", username);
                         params.put("pword", password);
 
                         return params;
                     }
-                };;
+                };
+
                 queue.add(request);
             }
         });
