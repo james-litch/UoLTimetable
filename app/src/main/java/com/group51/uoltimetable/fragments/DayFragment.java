@@ -22,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class DayFragment extends Fragment {
@@ -75,33 +77,32 @@ public class DayFragment extends Fragment {
         lecture = new JSONObject();
         JSONObject otherLecture = new JSONObject();
         lectures = new JSONArray();
+
         try {
             lecture.put("lectureName", "Computer Based Trading in financial markets");
             lecture.put("lecturerName", "bill gates");
             lecture.put("location", "the guild");
             lecture.put("latitude", 53.405936);
             lecture.put("longitude", -2.965572);
-            lecture.put("startTime", "12:00");
-            lecture.put("endTime", "12:00");
+            lecture.put("dateTime", "2019-04-29 11:00:00");
 
             otherLecture.put("lectureName", "maths");
             otherLecture.put("lecturerName", "someone");
             otherLecture.put("location", "69 smithdown lane");
             otherLecture.put("latitude", 53.404041);
             otherLecture.put("longitude", -2.959008);
-            otherLecture.put("startTime", "16:00");
-            otherLecture.put("endTime", "17:00");
+            otherLecture.put("dateTime", "2019-04-28 11:00:00");
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (date.equals("28-04-2019")) {
+        if (date.equals("2019-04-29")) {
             lectures.put(otherLecture);
 
         }
 
-        if (date.equals("29-04-2019")) {
+        if (date.equals("2019-04-30")) {
             lectures.put(lecture);
         }
 

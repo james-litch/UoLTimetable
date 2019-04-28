@@ -12,10 +12,14 @@ import com.group51.uoltimetable.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.sql.Date;
+
 
 public class LectureRecyclerAdapter extends RecyclerView.Adapter<LectureRecyclerAdapter.LectureViewHolder> {
     private OnItemClickListener clickListener;
     private JSONArray lectures;
+    DateTimeHelper dateTimeHelper;
+
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -27,7 +31,6 @@ public class LectureRecyclerAdapter extends RecyclerView.Adapter<LectureRecycler
 
 
     public static class LectureViewHolder extends RecyclerView.ViewHolder {
-
         LinearLayout linearLayout;
         TextView lectureName;
         TextView lecturerName;
@@ -77,11 +80,17 @@ public class LectureRecyclerAdapter extends RecyclerView.Adapter<LectureRecycler
     @Override
     public void onBindViewHolder(LectureViewHolder lectureViewHolder, int i) {
         try {
+            dateTimeHelper = new DateTimeHelper();
+
+            String startTime = dateTimeHelper.getStringFromDate(lectures.getJSONObject(i).getString("dateTime"), false);
+            String endTime = dateTimeHelper.getStringFromDate(lectures.getJSONObject(i).getString("dateTime"), true);
+
+
             lectureViewHolder.lectureName.setText(lectures.getJSONObject(i).getString("lectureName"));
             lectureViewHolder.lecturerName.setText(lectures.getJSONObject(i).getString("lecturerName"));
             lectureViewHolder.location.setText(lectures.getJSONObject(i).getString("location"));
-            lectureViewHolder.startTime.setText(lectures.getJSONObject(i).getString("startTime"));
-            lectureViewHolder.endTime.setText(lectures.getJSONObject(i).getString("endTime"));
+            lectureViewHolder.startTime.setText(startTime);
+            lectureViewHolder.endTime.setText(endTime);
 
         } catch (JSONException e) {
             e.printStackTrace();

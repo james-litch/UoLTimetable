@@ -37,6 +37,7 @@ import com.group51.uoltimetable.utilities.SessionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.Objects;
 
 public class LectureInfoFragment extends Fragment implements OnMapReadyCallback {
@@ -71,6 +72,8 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         sessionManager = new SessionManager(Objects.requireNonNull(getContext()));
+        dateTimeHelper = new DateTimeHelper();
+
 
         if (sessionManager.isLecturer()) {
             view = inflater.inflate(R.layout.lecturers_info_fragment, container, false);
@@ -82,7 +85,6 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
             view = inflater.inflate(R.layout.lecture_info_fragment, container, false);
             lecturerName = view.findViewById(R.id.info_lecturer_name);
             attendanceButton = view.findViewById(R.id.register_attendance_button);
-            dateTimeHelper = new DateTimeHelper();
 
 
         }
@@ -127,7 +129,12 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
         attendanceButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 closeToLecture();
-                boolean onTime = dateTimeHelper.inTimeRange(startTime, endTime, viewModel.getDate());
+                boolean onTime = false;
+                try {
+                    onTime = dateTimeHelper.inTimeRange(viewModel.getLectureInfo().getString("dateTime"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 //TODO register attendance method.
                 if (inRange && onTime) {
                     registerAttendance();
@@ -176,19 +183,20 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
 
 
     private void displayInfo(JSONObject lectureInfo) {
+
         try {
             if (!sessionManager.isLecturer()) {
                 lecturerName.setText(lectureInfo.getString("lecturerName"));
             }
+            startTime = dateTimeHelper.getStringFromDate(viewModel.getLectureInfo().getString("dateTime"), false);
+            endTime = dateTimeHelper.getStringFromDate(viewModel.getLectureInfo().getString("dateTime"), true);
+
 
             lectureName.setText(lectureInfo.getString("lectureName"));
             location.setText(lectureInfo.getString("location"));
-            time.setText(String.format("%s - %s", lectureInfo.getString("startTime"), lectureInfo.getString("endTime")));
+            time.setText(String.format("%s - %s", startTime, endTime));
 
             targetLocation = new LatLng(lectureInfo.getDouble("latitude"), lectureInfo.getDouble("longitude"));
-
-            startTime = viewModel.getLectureInfo().getString("startTime");
-            endTime = viewModel.getLectureInfo().getString("endTime");
 
 
         } catch (JSONException e) {

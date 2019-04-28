@@ -56,7 +56,7 @@ public class TabFragment extends Fragment {
         dayOfWeek = dateTimeHelper.getDayOfToday();
 
         //sets the opening day of the schedule to the current day, if its the weekend set to monday.
-        if (dayOfWeek < 6 && dayOfWeek > 1) {
+        if (dayOfWeek < 6) {
             viewPager.setCurrentItem(dayOfWeek - 1, true);
 
         } else {

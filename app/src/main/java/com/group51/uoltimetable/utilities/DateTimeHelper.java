@@ -1,7 +1,10 @@
 package com.group51.uoltimetable.utilities;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -9,23 +12,29 @@ import java.util.Locale;
 public class DateTimeHelper {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
-    private String datePattern = "dd-MM-yyyy";
+    private SimpleDateFormat dateTimeFormat;
+    private SimpleDateFormat timeFormat;
+    private DateTimeFormatter dateTimeFormatter;
+    private DateTimeFormatter timeFormatter;
+    private DateTimeFormatter dateFormatter;
+
+    private String datePattern = "yyyy-MM-dd";
+    private String dateTimePattern = "yyyy-MM-dd HH:mm:ss";
+    private String timePattern = "HH:mm";
 
     public DateTimeHelper() {
     }
 
     public String getDateToday() {
-        Date date = Calendar.getInstance().getTime();
-        dateFormat = new SimpleDateFormat(datePattern, Locale.UK);
-        return dateFormat.format(date);
+        LocalDate dateToday = LocalDate.now();
+        dateFormatter = DateTimeFormatter.ofPattern(datePattern);
 
+        return dateToday.format(dateFormatter);
     }
 
     public int getDayOfToday() {
-        calendar = Calendar.getInstance(Locale.UK);
-        int dayOfToday = calendar.get(Calendar.DAY_OF_WEEK);
-        //monday is 1 not 0.
-        return dayOfToday - 1;
+        System.out.println(LocalDate.now().getDayOfWeek().getValue());
+        return LocalDate.now().getDayOfWeek().getValue();
 
     }
 
@@ -43,6 +52,8 @@ public class DateTimeHelper {
         calendar.add(Calendar.DATE, numDays);
         Date date = calendar.getTime();
 
+        System.out.println(dateFormat.format(date));
+
         return dateFormat.format(date);
     }
 
@@ -58,16 +69,37 @@ public class DateTimeHelper {
         if (month < 10) {
             monthString = "0" + monthString;
         }
-        return dayString + "-" + monthString + "-" + yearString;
+        return yearString + "-" + monthString + "-" + dayString;
     }
 
 
-    public boolean inTimeRange(String startString, String endString, String lectureDate) {
-        LocalTime startTime = LocalTime.parse(startString);
-        LocalTime endTime = LocalTime.parse(endString);
-        LocalTime currentTime = LocalTime.now();
-        return currentTime.isAfter(startTime) && currentTime.isBefore(endTime) && lectureDate.equals(getDateToday());
+    public boolean inTimeRange(String lectureTime) {
+
+        LocalDateTime startTime = LocalDateTime.parse(lectureTime);
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime endTime = currentTime.plusHours(1);
+
+        return currentTime.isAfter(startTime) && currentTime.isBefore(endTime);
     }
 
 
+    public String getStringFromDate(String dateTimeString, boolean addHour) {
+
+        dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimePattern);
+        timeFormatter = DateTimeFormatter.ofPattern(timePattern);
+
+        LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, dateTimeFormatter);
+
+
+        if (addHour) {
+            LocalTime endTime = dateTime.toLocalTime();
+            endTime.plusHours(1);
+            return endTime.format(timeFormatter);
+        }
+        LocalTime startTime = dateTime.toLocalTime();
+
+
+        return startTime.format(timeFormatter);
+
+    }
 }
