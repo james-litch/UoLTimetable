@@ -6,7 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
-    <string name="username_txt_box">Username</string>
+    <string name="username_txt_box">User ID</string>
     <string name ="password_txt_box">password</string>
     <string name ="login_button">Sign in</string>
     <!-- Strings related to nav_menu -->
@@ -19,6 +19,9 @@
     <string name="info_register_attendance">register attendance</string>
     <string name="lecturer_card_title">Lecturer</string>
     <string name="location_card_title">Location</string>
+    <string name="time_card_title">Time</string>
+    <string name="change_room_button">Change Room</string>
+    <string name="info_spinner_building">Building</string>
 
 
 </resources>

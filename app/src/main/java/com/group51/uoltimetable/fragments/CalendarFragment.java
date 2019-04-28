@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.group51.uoltimetable.Model.LectureInfoViewModel;
 import com.group51.uoltimetable.R;
-import com.group51.uoltimetable.utilities.DateHelper;
+import com.group51.uoltimetable.utilities.DateTimeHelper;
 
 import java.util.Objects;
 
@@ -24,7 +24,7 @@ public class CalendarFragment extends Fragment {
     CalendarView calendarView;
     View view;
     private LectureInfoViewModel viewModel;
-    DateHelper dateHelper;
+    DateTimeHelper dateTimeHelper;
 
 
     @Nullable
@@ -32,14 +32,14 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.calendar_fragment, container, false);
         viewModel = ViewModelProviders.of(Objects.requireNonNull(this.getActivity())).get(LectureInfoViewModel.class);
-        dateHelper = new DateHelper();
+        dateTimeHelper = new DateTimeHelper();
 
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        addDayFragment(dateHelper.getDateToday());
+        addDayFragment(dateTimeHelper.getDateToday());
         initialiseCalendar();
 
 
@@ -52,7 +52,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 month += 1;
-                String date = dateHelper.dateStringFromInts(dayOfMonth, month, year);
+                String date = dateTimeHelper.dateStringFromInts(dayOfMonth, month, year);
                 addDayFragment(date);
                 Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
             }
@@ -64,7 +64,6 @@ public class CalendarFragment extends Fragment {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.day_fragment_container, dayFragment).commit();
 
-        //TODO on click of calendar isnt working because the date passed has month 4 and not 04.
     }
 
 

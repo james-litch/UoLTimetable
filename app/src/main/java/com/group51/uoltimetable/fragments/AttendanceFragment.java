@@ -43,6 +43,7 @@ public class AttendanceFragment extends Fragment {
     }
 
     private void initialiseData() {
+        //TODO get attendance data
 
         attendance = new JSONObject();
         attendance2 = new JSONObject();

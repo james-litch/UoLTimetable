@@ -68,34 +68,40 @@ public class DayFragment extends Fragment {
     }
 
     private void initialiseData(String date) {
+
+        viewModel.setDate(date);
         //TODO set JSONArray lectures = to the query and remove everything else.
         //Toast.makeText(getContext(), "date is : " + date, Toast.LENGTH_LONG).show();
         lecture = new JSONObject();
         JSONObject otherLecture = new JSONObject();
         lectures = new JSONArray();
         try {
-            lecture.put("lectureName", "Programming");
+            lecture.put("lectureName", "Computer Based Trading in financial markets");
             lecture.put("lecturerName", "bill gates");
-            lecture.put("location", "gaffistan");
+            lecture.put("location", "the guild");
+            lecture.put("latitude", 53.405936);
+            lecture.put("longitude", -2.965572);
             lecture.put("startTime", "12:00");
             lecture.put("endTime", "12:00");
 
             otherLecture.put("lectureName", "maths");
             otherLecture.put("lecturerName", "someone");
-            otherLecture.put("location", "home");
-            otherLecture.put("startTime", "15:00");
-            otherLecture.put("endTime", "16:00");
+            otherLecture.put("location", "69 smithdown lane");
+            otherLecture.put("latitude", 53.404041);
+            otherLecture.put("longitude", -2.959008);
+            otherLecture.put("startTime", "16:00");
+            otherLecture.put("endTime", "17:00");
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (date.equals("26-04-2019")) {
+        if (date.equals("28-04-2019")) {
             lectures.put(otherLecture);
 
         }
 
-        if (date.equals("22-04-2019")) {
+        if (date.equals("29-04-2019")) {
             lectures.put(lecture);
         }
 
