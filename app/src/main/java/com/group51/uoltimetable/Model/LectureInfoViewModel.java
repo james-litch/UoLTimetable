@@ -7,6 +7,7 @@ import org.json.JSONObject;
 public class LectureInfoViewModel extends ViewModel {
 
     private JSONObject lectureInfo;
+    private String date;
 
 
     public void setLectureInfo(JSONObject lecture) {
@@ -18,4 +19,11 @@ public class LectureInfoViewModel extends ViewModel {
     }
 
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
 }

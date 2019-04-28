@@ -12,20 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.group51.uoltimetable.Model.LectureInfoViewModel;
 import com.group51.uoltimetable.R;
-import com.group51.uoltimetable.utilities.DateHelper;
-
-import java.util.Calendar;
+import com.group51.uoltimetable.utilities.DateTimeHelper;
 
 public class TabFragment extends Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
     public static int num_frags = 5;
-    private LectureInfoViewModel viewModel;
     Boolean showNextWeek = false;
-    DateHelper dateHelper;
+    DateTimeHelper dateTimeHelper;
     int dayOfWeek;
     View view;
 
@@ -56,11 +52,11 @@ public class TabFragment extends Fragment {
 
         viewPager.setOffscreenPageLimit(2);
 
-        dateHelper = new DateHelper();
-        dayOfWeek = dateHelper.getDayOfToday();
+        dateTimeHelper = new DateTimeHelper();
+        dayOfWeek = dateTimeHelper.getDayOfToday();
 
         //sets the opening day of the schedule to the current day, if its the weekend set to monday.
-        if (dayOfWeek < Calendar.SATURDAY) {
+        if (dayOfWeek < 6 && dayOfWeek > 1) {
             viewPager.setCurrentItem(dayOfWeek - 1, true);
 
         } else {
@@ -81,7 +77,7 @@ public class TabFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
 
-            return DayFragment.newInstance(dateHelper.getDateOfDay(position, showNextWeek));
+            return DayFragment.newInstance(dateTimeHelper.getDateOfDay(position, showNextWeek));
 
         }
 

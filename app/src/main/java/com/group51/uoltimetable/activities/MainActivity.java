@@ -116,10 +116,6 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new AttendanceFragment();
 
                 break;
-            case R.id.nav_room_change:
-                //TODO implement room change.
-                fragment = new CalendarFragment();
-                break;
             case R.id.nav_sign_out:
                 session.logoutUser();
                 finishAffinity();
