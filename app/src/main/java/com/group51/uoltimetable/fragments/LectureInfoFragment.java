@@ -219,6 +219,7 @@ public class LectureInfoFragment extends Fragment implements OnMapReadyCallback 
 
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;

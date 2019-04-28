@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -46,6 +47,18 @@ public class LoginActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
 
         session = new SessionManager(getApplicationContext());
+
+        lecturerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    usernameTxtBox.setHint("Lecturer ID");
+
+                } else {
+                    usernameTxtBox.setHint("Student ID");
+
+                }
+            }
+        });
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {

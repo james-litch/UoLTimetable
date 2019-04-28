@@ -6,8 +6,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
-    <string name="username_txt_box">User ID</string>
-    <string name ="password_txt_box">password</string>
+    <string name="username_txt_box">Student ID</string>
+    <string name="password_txt_box">Password</string>
     <string name ="login_button">Sign in</string>
     <!-- Strings related to nav_menu -->
     <string name="nav_schedule">Schedule</string>
