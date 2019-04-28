@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     Switch lecturerSwitch;
     SessionManager session;
     RequestQueue queue;
-    String url = "https://student.csc.liv.ac.uk/~sgmbray/DBFetch.php";
+    String url = "https://student.csc.liv.ac.uk/~sgmbray/Login.php";
     private String username;
     private String password;
 
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response == "success") {
+                        if (response.equals("success")) {
                             session.createLoginSession(username);
                             session.setAsStudent();
                             goToMainActivity();
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                     protected Map<String, String> getParams()
                     {
                         Map<String, String>  params = new HashMap<String, String>();
-                        params.put("lecturer", Boolean.toString(!lecturerSwitch.isChecked()));
+                        params.put("lecturer", Boolean.toString(lecturerSwitch.isChecked()));
                         params.put("id", username);
                         params.put("pword", password);
 
