@@ -23,6 +23,8 @@ import com.group51.uoltimetable.utilities.SessionManager;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.security.AccessController.getContext;
+
 public class LoginActivity extends AppCompatActivity {
 
     Button loginBtn;
@@ -71,11 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         if (response.equals("success")) {
                             session.createLoginSession(username);
-                            if (lecturerSwitch.isChecked()) {
-                                session.setAsLecturer();
-                            } else {
-                                session.setAsStudent();
-                            }
+                            session.setAsStudent();
                             goToMainActivity();
                         } else {
                             Toast.makeText(getApplicationContext(), "Incorrect Details", Toast.LENGTH_LONG).show();
@@ -86,18 +84,18 @@ public class LoginActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
                     }
-                }) {
+                }){
                     @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<String, String>();
                         params.put("lecturer", Boolean.toString(lecturerSwitch.isChecked()));
                         params.put("id", username);
                         params.put("pword", password);
 
                         return params;
                     }
-                };
-
+                };;
                 queue.add(request);
             }
         });
