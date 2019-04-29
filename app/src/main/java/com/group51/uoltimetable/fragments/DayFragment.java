@@ -1,6 +1,5 @@
 package com.group51.uoltimetable.fragments;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,13 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.group51.uoltimetable.Model.LectureInfoViewModel;
@@ -82,7 +79,7 @@ public class DayFragment extends Fragment {
 
     private void initialiseData(final String date) {
         lectures = new JSONArray();
-        queue = Volley.newRequestQueue(getContext());
+        queue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -102,7 +99,7 @@ public class DayFragment extends Fragment {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("id", sessionManager.getUsername());
                 params.put("date", date);
                 return params;
