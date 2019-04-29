@@ -85,6 +85,7 @@ public class DayFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     lectures = new JSONArray(response);
+                    System.out.println(lectures);
                     adapter.updateItems(lectures);
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -95,7 +96,6 @@ public class DayFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("dead" + error);
             }
         }) {
             @Override
@@ -103,6 +103,8 @@ public class DayFragment extends Fragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("id", sessionManager.getUsername());
                 params.put("date", date);
+                params.put("lecturer", Boolean.toString(sessionManager.isLecturer())
+                );
                 return params;
             }
         };

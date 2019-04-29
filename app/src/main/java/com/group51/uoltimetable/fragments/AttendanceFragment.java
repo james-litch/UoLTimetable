@@ -10,21 +10,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.group51.uoltimetable.R;
 import com.group51.uoltimetable.utilities.AttendanceRecyclerAdapter;
+import com.group51.uoltimetable.utilities.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public class AttendanceFragment extends Fragment {
     View view;
-    JSONObject attendance;
-    JSONObject attendance2;
     JSONArray attendances;
     private RecyclerView recyclerView;
     private AttendanceRecyclerAdapter adapter;
-
+    SessionManager sessionManager;
+    String url = "https://student.csc.liv.ac.uk/~sgmbray/AttendanceCheck.php";
 
     public AttendanceFragment() {
     }
@@ -35,6 +45,7 @@ public class AttendanceFragment extends Fragment {
         view = inflater.inflate(R.layout.attendance_fragment, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_attendance);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        sessionManager = new SessionManager(getContext());
 
         initialiseData();
         initialiseAdapter();
@@ -44,23 +55,35 @@ public class AttendanceFragment extends Fragment {
 
     private void initialiseData() {
         //TODO get attendance data
-
-        attendance = new JSONObject();
-        attendance2 = new JSONObject();
         attendances = new JSONArray();
-        try {
-            attendance.put("ModuleCode", "AI");
-            attendance.put("attendance", "0%");
-            attendance2.put("ModuleCode", "The Rest");
-            attendance2.put("attendance", "0%");
+        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    attendances = new JSONArray(response);
+                    adapter.updateItems(attendances);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
 
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("dead" + error);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", sessionManager.getUsername());
+                return params;
+            }
+        };
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        queue.add(request);
 
-        attendances.put(attendance);
-        attendances.put(attendance2);
     }
 
     private void initialiseAdapter() {
