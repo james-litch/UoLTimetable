@@ -47,7 +47,6 @@ public class DayFragment extends Fragment {
     SessionManager sessionManager;
     String url = "https://student.csc.liv.ac.uk/~sgmbray/DBFetch.php";
 
-
     public DayFragment() {
     }
 
@@ -72,10 +71,11 @@ public class DayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.lectures_fragment, container, false);
         viewModel = ViewModelProviders.of(Objects.requireNonNull(this.getActivity())).get(LectureInfoViewModel.class);
+        sessionManager = new SessionManager(Objects.requireNonNull(getContext()));
+        initialiseData(date);
         recyclerView = view.findViewById(R.id.recycler_view_lectures);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         readBundle(getArguments());
-        sessionManager = new SessionManager(Objects.requireNonNull(getContext()));
 
 
         initialiseAdapter();
@@ -95,10 +95,10 @@ public class DayFragment extends Fragment {
             public void onResponse(String response) {
                 try {
                     progress.dismiss();
-                    //System.out.println(response);
+                    System.out.println(response);
                     lectures = new JSONArray(response);
                     adapter.notifyDataSetChanged();
-                    System.out.println(lectures.getJSONObject(0));
+                    System.out.println(lectures.getJSONObject(1));
                 } catch(JSONException e) {
 
                 }
