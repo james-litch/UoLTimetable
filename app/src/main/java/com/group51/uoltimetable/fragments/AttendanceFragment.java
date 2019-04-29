@@ -49,9 +49,9 @@ public class AttendanceFragment extends Fragment {
         attendance2 = new JSONObject();
         attendances = new JSONArray();
         try {
-            attendance.put("lectureName", "AI");
+            attendance.put("ModuleCode", "AI");
             attendance.put("attendance", "0%");
-            attendance2.put("lectureName", "The Rest");
+            attendance2.put("ModuleCode", "The Rest");
             attendance2.put("attendance", "0%");
 
 

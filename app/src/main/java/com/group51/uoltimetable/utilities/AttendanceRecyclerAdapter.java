@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.group51.uoltimetable.R;
@@ -16,6 +15,10 @@ import org.json.JSONException;
 
 public class AttendanceRecyclerAdapter extends RecyclerView.Adapter<AttendanceRecyclerAdapter.AttendanceViewHolder> {
     private JSONArray attendances;
+
+    public void updateItems(JSONArray attendances) {
+        this.attendances = attendances;
+    }
 
     public static class AttendanceViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,12 +42,13 @@ public class AttendanceRecyclerAdapter extends RecyclerView.Adapter<AttendanceRe
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @NonNull
     @Override
-    public AttendanceViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public AttendanceViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.attendance_card, viewGroup, false);
         return new AttendanceViewHolder(v);
 
@@ -53,8 +57,8 @@ public class AttendanceRecyclerAdapter extends RecyclerView.Adapter<AttendanceRe
     @Override
     public void onBindViewHolder(@NonNull AttendanceRecyclerAdapter.AttendanceViewHolder attendanceViewHolder, int i) {
         try {
-            attendanceViewHolder.lectureName.setText(attendances.getJSONObject(i).getString("lectureName"));
-            attendanceViewHolder.attendanceAmount.setText(attendances.getJSONObject(i).getString("attendance"));
+            attendanceViewHolder.lectureName.setText(attendances.getJSONObject(i).getString("ModuleCode"));
+            attendanceViewHolder.attendanceAmount.setText(String.format("Number of lectures attended is : %s", attendances.getJSONObject(i).getString("attendance")));
 
 
         } catch (JSONException e) {
