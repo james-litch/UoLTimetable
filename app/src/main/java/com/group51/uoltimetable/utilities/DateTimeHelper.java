@@ -12,12 +12,9 @@ import java.util.Locale;
 public class DateTimeHelper {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
-    private SimpleDateFormat dateTimeFormat;
-    private SimpleDateFormat timeFormat;
     private DateTimeFormatter dateTimeFormatter;
     private DateTimeFormatter timeFormatter;
     private DateTimeFormatter dateFormatter;
-
     private String datePattern = "yyyy-MM-dd";
     private String dateTimePattern = "yyyy-MM-dd HH:mm:ss";
     private String timePattern = "HH:mm";
@@ -33,9 +30,8 @@ public class DateTimeHelper {
     }
 
     public int getDayOfToday() {
-        System.out.println(LocalDate.now().getDayOfWeek().getValue());
-        return LocalDate.now().getDayOfWeek().getValue();
 
+        return LocalDate.now().getDayOfWeek().getValue();
     }
 
     public String getDateOfDay(int numDays, Boolean nextWeek) {
@@ -52,7 +48,6 @@ public class DateTimeHelper {
         calendar.add(Calendar.DATE, numDays);
         Date date = calendar.getTime();
 
-        System.out.println(dateFormat.format(date));
 
         return dateFormat.format(date);
     }
@@ -74,14 +69,15 @@ public class DateTimeHelper {
 
 
     public boolean inTimeRange(String lectureTime) {
+        //broken
+        dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimePattern);
 
-        LocalDateTime startTime = LocalDateTime.parse(lectureTime);
+        LocalDateTime startTime = LocalDateTime.parse(lectureTime, dateTimeFormatter);
         LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime endTime = currentTime.plusHours(1);
+        LocalDateTime endTime = startTime.plusHours(1);
 
         return currentTime.isAfter(startTime) && currentTime.isBefore(endTime);
     }
-
 
     public String getStringFromDate(String dateTimeString, boolean addHour) {
 
@@ -89,17 +85,12 @@ public class DateTimeHelper {
         timeFormatter = DateTimeFormatter.ofPattern(timePattern);
 
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, dateTimeFormatter);
-
-
-        if (addHour) {
-            LocalTime endTime = dateTime.toLocalTime();
-            endTime.plusHours(1);
-            return endTime.format(timeFormatter);
-        }
         LocalTime startTime = dateTime.toLocalTime();
 
-
+        if (addHour) {
+            LocalTime endTime = startTime.plusHours(1);
+            return endTime.format(timeFormatter);
+        }
         return startTime.format(timeFormatter);
-
     }
 }

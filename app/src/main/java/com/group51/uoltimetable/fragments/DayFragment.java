@@ -84,14 +84,14 @@ public class DayFragment extends Fragment {
             lecture.put("location", "the guild");
             lecture.put("latitude", 53.405936);
             lecture.put("longitude", -2.965572);
-            lecture.put("dateTime", "2019-04-29 11:00:00");
+            lecture.put("dateTime", "2019-04-29 10:00:00");
 
             otherLecture.put("lectureName", "maths");
             otherLecture.put("lecturerName", "someone");
             otherLecture.put("location", "69 smithdown lane");
             otherLecture.put("latitude", 53.404041);
             otherLecture.put("longitude", -2.959008);
-            otherLecture.put("dateTime", "2019-04-28 11:00:00");
+            otherLecture.put("dateTime", "2019-04-29 01:00:00");
 
 
         } catch (JSONException e) {
