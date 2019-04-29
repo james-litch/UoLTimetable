@@ -23,7 +23,6 @@ import com.group51.uoltimetable.utilities.SessionManager;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.security.AccessController.getContext;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -92,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 }) {
                     @Override
                     protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<String, String>();
+                        Map<String, String> params = new HashMap<>();
                         params.put("lecturer", Boolean.toString(lecturerSwitch.isChecked()));
                         params.put("id", username);
                         params.put("pword", password);
@@ -100,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                         return params;
                     }
                 };
-                ;
+
                 queue.add(request);
             }
         });
