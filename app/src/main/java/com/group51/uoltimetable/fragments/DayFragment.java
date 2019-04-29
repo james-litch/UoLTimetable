@@ -88,6 +88,7 @@ public class DayFragment extends Fragment {
                     adapter.updateItems(lectures);
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
+                    e.printStackTrace();
 
                 }
             }
