@@ -72,8 +72,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if (response.equals("success")) {
-                            session.createLoginSession(username);
-                            session.setAsStudent();
+                            if (lecturerSwitch.isChecked()) {
+                                session.createLoginSession(username);
+                                session.setAsLecturer();
+                            } else {
+                                session.createLoginSession(username);
+                                session.setAsStudent();
+                            }
                             goToMainActivity();
                         } else {
                             Toast.makeText(getApplicationContext(), "Incorrect Details", Toast.LENGTH_LONG).show();
@@ -84,18 +89,18 @@ public class LoginActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
                     }
-                }){
+                }) {
                     @Override
-                    protected Map<String, String> getParams()
-                    {
-                        Map<String, String>  params = new HashMap<String, String>();
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
                         params.put("lecturer", Boolean.toString(lecturerSwitch.isChecked()));
                         params.put("id", username);
                         params.put("pword", password);
 
                         return params;
                     }
-                };;
+                };
+                ;
                 queue.add(request);
             }
         });
