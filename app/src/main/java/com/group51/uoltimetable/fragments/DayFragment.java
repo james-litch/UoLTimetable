@@ -29,8 +29,6 @@ import com.group51.uoltimetable.utilities.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
 
 
 import java.util.HashMap;
@@ -71,13 +69,12 @@ public class DayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.lectures_fragment, container, false);
         viewModel = ViewModelProviders.of(Objects.requireNonNull(this.getActivity())).get(LectureInfoViewModel.class);
-        sessionManager = new SessionManager(Objects.requireNonNull(getContext()));
-        initialiseData(date);
         recyclerView = view.findViewById(R.id.recycler_view_lectures);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         readBundle(getArguments());
 
-
+        sessionManager = new SessionManager(Objects.requireNonNull(getContext()));
+        initialiseData(date);
         initialiseAdapter();
         return view;
 
@@ -86,20 +83,14 @@ public class DayFragment extends Fragment {
     private void initialiseData(final String date) {
         lectures = new JSONArray();
         queue = Volley.newRequestQueue(getContext());
-        System.out.println(date);
-        final ProgressDialog progress = new ProgressDialog(getContext());
-        progress.setMessage("Loading...");
-        progress.show();
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    progress.dismiss();
-                    System.out.println(response);
                     lectures = new JSONArray(response);
+                    adapter.updateItems(lectures);
                     adapter.notifyDataSetChanged();
-                    System.out.println(lectures.getJSONObject(1));
-                } catch(JSONException e) {
+                } catch (JSONException e) {
 
                 }
             }
@@ -108,16 +99,16 @@ public class DayFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 System.out.println("dead" + error);
             }
-        }){
+        }) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("id", sessionManager.getUsername());
-                params.put("date", "2019-04-29");
+                params.put("date", date);
                 return params;
             }
-        };;
+        };
+
         queue.add(request);
 
         viewModel.setDate(date);

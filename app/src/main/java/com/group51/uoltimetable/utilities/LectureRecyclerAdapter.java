@@ -12,13 +12,16 @@ import com.group51.uoltimetable.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.sql.Date;
 
 
 public class LectureRecyclerAdapter extends RecyclerView.Adapter<LectureRecyclerAdapter.LectureViewHolder> {
     private OnItemClickListener clickListener;
     private JSONArray lectures;
     DateTimeHelper dateTimeHelper;
+
+    public void updateItems(JSONArray lectures) {
+        this.lectures = lectures;
+    }
 
 
     public interface OnItemClickListener {
