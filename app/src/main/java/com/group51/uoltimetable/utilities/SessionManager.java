@@ -51,6 +51,11 @@ public class SessionManager {
         context.startActivity(i);
     }
 
+    public String getUsername() {
+        return pref.getString("username", null);
+    }
+
+
     public void logoutUser() {
         //clear and save preferences.
         editor.clear();

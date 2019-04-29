@@ -1,5 +1,6 @@
 package com.group51.uoltimetable.fragments;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,28 +12,40 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.group51.uoltimetable.Model.LectureInfoViewModel;
 import com.group51.uoltimetable.R;
 import com.group51.uoltimetable.activities.MainActivity;
 import com.group51.uoltimetable.utilities.LectureRecyclerAdapter;
+import com.group51.uoltimetable.utilities.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class DayFragment extends Fragment {
     private RecyclerView recyclerView;
     private LectureRecyclerAdapter adapter;
     JSONArray lectures;
-    JSONObject lecture;
     private LectureInfoViewModel viewModel;
     private String date;
+    RequestQueue queue;
+    SessionManager sessionManager;
+    String url = "https://student.csc.liv.ac.uk/~sgmbray/DBFetch.php";
 
 
     public DayFragment() {
@@ -62,50 +75,52 @@ public class DayFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_lectures);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         readBundle(getArguments());
+        sessionManager = new SessionManager(Objects.requireNonNull(getContext()));
 
-        initialiseData(date);
+
         initialiseAdapter();
         return view;
 
     }
 
-    private void initialiseData(String date) {
+    private void initialiseData(final String date) {
+        lectures = new JSONArray();
+        queue = Volley.newRequestQueue(getContext());
+        System.out.println(date);
+        final ProgressDialog progress = new ProgressDialog(getContext());
+        progress.setMessage("Loading...");
+        progress.show();
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    progress.dismiss();
+                    //System.out.println(response);
+                    lectures = new JSONArray(response);
+                    adapter.notifyDataSetChanged();
+                    System.out.println(lectures.getJSONObject(0));
+                } catch(JSONException e) {
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("dead" + error);
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("id", sessionManager.getUsername());
+                params.put("date", "2019-04-29");
+                return params;
+            }
+        };;
+        queue.add(request);
 
         viewModel.setDate(date);
-        //TODO set JSONArray lectures = to the query and remove everything else.
-        //Toast.makeText(getContext(), "date is : " + date, Toast.LENGTH_LONG).show();
-        lecture = new JSONObject();
-        JSONObject otherLecture = new JSONObject();
-        lectures = new JSONArray();
-
-        try {
-            lecture.put("lectureName", "Computer Based Trading in financial markets");
-            lecture.put("lecturerName", "bill gates");
-            lecture.put("location", "the guild");
-            lecture.put("latitude", 53.405936);
-            lecture.put("longitude", -2.965572);
-            lecture.put("dateTime", "2019-04-29 10:00:00");
-
-            otherLecture.put("lectureName", "maths");
-            otherLecture.put("lecturerName", "someone");
-            otherLecture.put("location", "69 smithdown lane");
-            otherLecture.put("latitude", 53.404041);
-            otherLecture.put("longitude", -2.959008);
-            otherLecture.put("dateTime", "2019-04-29 01:00:00");
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (date.equals("2019-04-29")) {
-            lectures.put(otherLecture);
-
-        }
-
-        if (date.equals("2019-04-30")) {
-            lectures.put(lecture);
-        }
-
 
     }
 

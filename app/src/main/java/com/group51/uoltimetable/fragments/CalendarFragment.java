@@ -54,7 +54,6 @@ public class CalendarFragment extends Fragment {
                 month += 1;
                 String date = dateTimeHelper.dateStringFromInts(dayOfMonth, month, year);
                 addDayFragment(date);
-                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
             }
         });
     }
